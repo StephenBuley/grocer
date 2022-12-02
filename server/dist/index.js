@@ -32,14 +32,26 @@ const express_1 = __importDefault(require("express"));
 const process_1 = __importDefault(require("process"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
-const uri = `mongodb+srv://StephenBuleyDB:${process_1.default.env.DB_PASSWORD}@cluster0.4kodetu.mongodb.net/?retryWrites=true&w=majority`;
-const PORT = process_1.default.env.PORT;
-const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
-app.use(body_parser_1.default.json());
-app.get("/", (req, res) => {
-    res.json({ string: "hello from the server" });
-});
-app.listen(PORT, () => {
-    console.log(`Hello there! from PORT ${PORT}`);
-});
+const mongoose_1 = __importDefault(require("mongoose"));
+const uri = `mongodb+srv://StephenBuleyDB:${process_1.default.env.DB_PASSWORD}@cluster0.4kodetu.mongodb.net/grocer?retryWrites=true&w=majority`;
+main().catch(err => console.error(err)); // top level async await functionality
+async function main() {
+    await mongoose_1.default.connect(uri); // asynchronously connects to database
+    // const testUser = new UserModel({          this is an example of creating and saving
+    //                                              a new user
+    //     username: "Test Number " + Date.now(),
+    //     password: "bob"
+    // })
+    // testUser.save()
+    const PORT = process_1.default.env.PORT;
+    const app = (0, express_1.default)();
+    app.use((0, cors_1.default)()); // change these options when deploying to only allow your frontend to 
+    //                  communicate with your backend
+    app.use(body_parser_1.default.json()); // backend accepts and sends json
+    app.get("/", (req, res) => {
+        res.json({ string: "hello from the server" }); // 
+    });
+    app.listen(PORT, () => {
+        console.log(`Hello there! from PORT ${PORT}`);
+    });
+}

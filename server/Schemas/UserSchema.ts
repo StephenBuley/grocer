@@ -1,10 +1,15 @@
-import mongoose from "mongoose"    
+import {Schema, model} from "mongoose"    
 
-const UserSchema = new mongoose.Schema({
-    username: String,
-    password: String
+interface IUser { // Document Interface for Typescript
+    username: string
+    password: string
+}
+
+const UserSchema = new Schema<IUser>({ // creates the MongoDB Schema
+    username: {type: String, required: true, unique: true },
+    password: {type: String, required: true}
 })
 
-const UserModel = mongoose.model("User", UserSchema)
+const UserModel = model<IUser>("User", UserSchema) // creates the MongoDB Model 
 
 export default UserModel

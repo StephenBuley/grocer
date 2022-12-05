@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react"
+import "./NewListModal.css"
 
 type ModalProps = {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
@@ -12,16 +13,24 @@ export function NewListModal({
   listName,
 }: ModalProps): ReactElement {
   return (
-    <form className="modal__new-list" onSubmit={(e) => handleSubmit(e)}>
-      <label htmlFor="list-name">New List Name</label>
-      <input
-        type="text"
-        name="list-name"
-        value={listName}
-        id="list-name"
-        onChange={(e) => handleChange(e)}
-      />
-      <button type="submit">Submit</button>
-    </form>
+    <div className="modal">
+      <form className="modal__form" onSubmit={(e) => handleSubmit(e)}>
+        <label htmlFor="list-name" className="modal__label">
+          New List Name
+        </label>
+        <input
+          className="modal__input"
+          autoComplete="off"
+          type="text"
+          name="list-name"
+          value={listName}
+          id="list-name"
+          onChange={(e) => handleChange(e)}
+        />
+        <button className="modal__submit-btn" type="submit">
+          Submit
+        </button>
+      </form>
+    </div>
   )
 }

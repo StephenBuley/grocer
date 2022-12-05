@@ -12,6 +12,6 @@ const UserSchema = new Schema<IUser>({
   password: { type: String, required: true },
 })
 
-const UserModel = model<IUser>("User", UserSchema) // creates the MongoDB Model
+const User = model<IUser>("User", UserSchema) // creates the MongoDB Model
 
-export default UserModel
+export default User

@@ -21,6 +21,6 @@ export const ItemSchema = new Schema<IItem>({
   },
 })
 
-const ItemModel = model<IItem>("Item", ItemSchema)
+const Item = model<IItem>("Item", ItemSchema)
 
-export default ItemModel
+export default Item

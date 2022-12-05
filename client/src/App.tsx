@@ -16,6 +16,7 @@ function App() {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    // TODO: send request to back end to create a new list with the current list name
     setInModal(false)
   }
 
@@ -31,7 +32,7 @@ function App() {
           listName={listName}
         />
       )}
-      <div className="list">{listName}</div>
+      <div className="list">{listName}</div> 
     </div>
   )
 }

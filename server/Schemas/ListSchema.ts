@@ -14,6 +14,6 @@ const ListSchema = new Schema<IList>({
   items: [ItemSchema],
 })
 
-const ListModel = model<IList>("List", ListSchema)
+const List = model<IList>("List", ListSchema)
 
-export default ListModel
+export default List

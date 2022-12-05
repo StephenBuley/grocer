@@ -6,7 +6,7 @@ import process from "process"
 import bodyParser from "body-parser"
 import cors from "cors"
 import mongoose from "mongoose"
-// import UserModel from './Schemas/UserSchema';
+// import User from './Schemas/UserSchema';
 
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.4kodetu.mongodb.net/grocer?retryWrites=true&w=majority`
 main().catch((err) => console.error(err))
@@ -14,7 +14,7 @@ main().catch((err) => console.error(err))
 async function main(): Promise<void> {
   await mongoose.connect(uri) // asynchronously connects to database
 
-  // const testUser = new UserModel({          //this is an example of creating and saving
+  // const testUser = new User({          //this is an example of creating and saving
   //                                           // a new user
   //     username: "Test Number " + Date.now(),
   //     password: "bob"

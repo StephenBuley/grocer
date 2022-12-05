@@ -5,16 +5,16 @@ const mongoose_1 = require("mongoose");
 exports.ItemSchema = new mongoose_1.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     quantity: {
         type: Number,
-        required: true
+        required: true,
     },
     checked: {
         type: Boolean,
-        required: true
-    }
+        required: true,
+    },
 });
-const ItemModel = (0, mongoose_1.model)("Item", exports.ItemSchema);
-exports.default = ItemModel;
+const Item = (0, mongoose_1.model)("Item", exports.ItemSchema);
+exports.default = Item;

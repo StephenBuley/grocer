@@ -5,9 +5,9 @@ const ItemSchema_1 = require("./ItemSchema");
 const ListSchema = new mongoose_1.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
-    items: [ItemSchema_1.ItemSchema]
+    items: [ItemSchema_1.ItemSchema],
 });
-const ListModel = (0, mongoose_1.model)("List", ListSchema);
-exports.default = ListModel;
+const List = (0, mongoose_1.model)("List", ListSchema);
+exports.default = List;

@@ -1,11 +1,13 @@
 import { useState } from "react"
 import "./App.css"
 import { NewListModal } from "./NewListModal"
+import {IList} from "../../server/Schemas/ListSchema"
 
 function App() {
   const [inModal, setInModal] = useState<boolean>(false)
   const [listName, setListName] = useState("")
-
+  const [lists, setLists] = useState<IList[]>([])
+ 
   function handleClick() {
     setInModal(true)
   }
@@ -14,9 +16,17 @@ function App() {
     setListName(e.target.value)
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    // TODO: send request to back end to create a new list with the current list name
+    const newList = await fetch("http://localhost:5002/lists", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: listName
+      })
+    })
     setInModal(false)
   }
 
@@ -32,7 +42,7 @@ function App() {
           listName={listName}
         />
       )}
-      <div className="list">{listName}</div> 
+      <div className="list">{lists.map(list => list.name)}</div> 
     </div>
   )
 }

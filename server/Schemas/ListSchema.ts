@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose"
 import { IItem, ItemSchema } from "./ItemSchema"
 
-interface IList {
+export interface IList {
   name: string
   items?: IItem[]
 }

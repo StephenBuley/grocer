@@ -7,6 +7,9 @@ function App() {
   const [inModal, setInModal] = useState<boolean>(false)
   const [listName, setListName] = useState("")
   const [lists, setLists] = useState<IList[]>([])
+
+  //TODO: initialize lists state with database call on app start up
+  // ReactQuery?
  
   function handleClick() {
     setInModal(true)
@@ -18,7 +21,7 @@ function App() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    const newList = await fetch("http://localhost:5002/lists", {
+    const response = await fetch("http://localhost:5002/lists", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -27,6 +30,8 @@ function App() {
         name: listName
       })
     })
+    const newList = await response.json()
+    setLists(prevLists => [...prevLists, newList])
     setInModal(false)
   }
 

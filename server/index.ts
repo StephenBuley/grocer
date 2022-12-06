@@ -40,7 +40,7 @@ async function main(): Promise<void> {
   app.post("/lists", async (req: Request<{name: string}>, res) => {
     console.log("hi")
     console.log(req.body)
-    const newList = new List({name: req.body.name})
+    const newList = new List({name: req.body.name, items: []})
     await newList.save()
     res.send(newList)
   })

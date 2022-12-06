@@ -36,7 +36,7 @@ async function main() {
     app.post("/lists", async (req, res) => {
         console.log("hi");
         console.log(req.body);
-        const newList = new ListSchema_1.default({ name: req.body.name });
+        const newList = new ListSchema_1.default({ name: req.body.name, items: [] });
         await newList.save();
         res.send(newList);
     });

@@ -16,6 +16,7 @@ const uri = `mongodb+srv://${process_1.default.env.DB_USERNAME}:${process_1.defa
 main().catch((err) => console.error(err));
 // top level async await functionality
 async function main() {
+    //TODO: fix database connection (switching IP addresses?)
     await mongoose_1.default.connect(uri); // asynchronously connects to database
     // const testUser = new User({          //this is an example of creating and saving
     //                                           // a new user
@@ -34,11 +35,13 @@ async function main() {
         res.json({ string: "hello from the server" });
     });
     app.post("/lists", async (req, res) => {
-        console.log("hi");
-        console.log(req.body);
         const newList = new ListSchema_1.default({ name: req.body.name, items: [] });
         await newList.save();
         res.send(newList);
+    });
+    app.get("/lists", async (req, res) => {
+        const lists = await ListSchema_1.default.find();
+        res.send(lists);
     });
     app.listen(PORT, () => {
         // starts the server listening

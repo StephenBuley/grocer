@@ -14,6 +14,7 @@ const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}
 main().catch((err) => console.error(err))
 // top level async await functionality
 async function main(): Promise<void> {
+  //TODO: fix database connection (switching IP addresses?)
   await mongoose.connect(uri) // asynchronously connects to database
 
   // const testUser = new User({          //this is an example of creating and saving
@@ -23,7 +24,6 @@ async function main(): Promise<void> {
   // })
 
   // await testUser.save()
-
   const PORT = process.env.PORT
 
   const app = express()
@@ -38,11 +38,14 @@ async function main(): Promise<void> {
   })
 
   app.post("/lists", async (req: Request<{name: string}>, res) => {
-    console.log("hi")
-    console.log(req.body)
     const newList = new List({name: req.body.name, items: []})
     await newList.save()
     res.send(newList)
+  })
+
+  app.get("/lists", async (req, res) => {
+    const lists = await List.find()
+    res.send(lists)
   })
 
   app.listen(PORT, () => {

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import "./App.css"
 import { NewListModal } from "./NewListModal"
 import {IList} from "../../server/Schemas/ListSchema"
@@ -10,6 +10,17 @@ function App() {
 
   //TODO: initialize lists state with database call on app start up
   // ReactQuery?
+  useEffect(() => {
+    console.log("this is the useEffect")
+    async function fetchLists() {
+      const response = await fetch("http://localhost:5002/lists")
+      const fetchedLists = await response.json()
+      setLists(fetchedLists)
+    }
+    fetchLists().catch(err => {
+      console.error(err)
+    })
+  }, [])
  
   function handleClick() {
     setInModal(true)
@@ -47,7 +58,7 @@ function App() {
           listName={listName}
         />
       )}
-      <div className="list">{lists.map(list => list.name)}</div> 
+      {lists.map(list => <div key={list._id} className="list">{list.name}</div>)} 
     </div>
   )
 }

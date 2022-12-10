@@ -4,6 +4,7 @@ import { IItem, ItemSchema } from "./ItemSchema"
 export interface IList {
   name: string
   items?: IItem[]
+  _id?: string
 }
 
 const ListSchema = new Schema<IList>({

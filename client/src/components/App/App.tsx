@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import "./App.css"
-import { NewListModal } from "./NewListModal"
-import {IList} from "../../server/Schemas/ListSchema"
+import { NewListModal } from "../../NewListModal"
+import { IList } from "../../../../server/Schemas/ListSchema"
 
 function App() {
   const [inModal, setInModal] = useState<boolean>(false)
@@ -17,11 +17,11 @@ function App() {
       const fetchedLists = await response.json()
       setLists(fetchedLists)
     }
-    fetchLists().catch(err => {
+    fetchLists().catch((err) => {
       console.error(err)
     })
   }, [])
- 
+
   function handleClick() {
     setInModal(true)
   }
@@ -35,14 +35,14 @@ function App() {
     const response = await fetch("http://localhost:5002/lists", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: listName
-      })
+        name: listName,
+      }),
     })
     const newList = await response.json()
-    setLists(prevLists => [...prevLists, newList])
+    setLists((prevLists) => [...prevLists, newList])
     setInModal(false)
   }
 
@@ -58,7 +58,11 @@ function App() {
           listName={listName}
         />
       )}
-      {lists.map(list => <div key={list._id} className="list">{list.name}</div>)} 
+      {lists.map((list) => (
+        <div key={list._id} className="list">
+          {list.name}
+        </div>
+      ))}
     </div>
   )
 }

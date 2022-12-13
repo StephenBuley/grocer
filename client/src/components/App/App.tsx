@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import "./App.css"
-import { NewListModal } from "../../NewListModal"
+import { NewListModal } from "../NewListModal/NewListModal"
 import { IList } from "../../../../server/Schemas/ListSchema"
 
 function App() {

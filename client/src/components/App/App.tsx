@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import "./App.css"
 import { NewListModal } from "../NewListModal/NewListModal"
 import { IList } from "../../../../server/Schemas/ListSchema"
+import DeleteButton from "../DeleteButton/DeleteButton"
 
 function App() {
   const [inModal, setInModal] = useState<boolean>(false)
@@ -17,8 +18,8 @@ function App() {
       const fetchedLists = await response.json()
       setLists(fetchedLists)
     }
-    fetchLists().catch((err) => {
-      console.error(err)
+    fetchLists().catch((e) => {
+      console.error(e)
     })
   }, [])
 
@@ -30,8 +31,17 @@ function App() {
     setListName(e.target.value)
   }
 
+  function handleCloseModal() {
+    setListName("")
+    setInModal(false)
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    if (listName === "") {
+      console.log("no name submitted")
+      return
+    }
     const response = await fetch("http://localhost:5002/lists", {
       method: "POST",
       headers: {
@@ -55,12 +65,14 @@ function App() {
         <NewListModal
           handleSubmit={handleSubmit}
           handleChange={handleChange}
+          handleCloseModal={handleCloseModal}
           listName={listName}
         />
       )}
       {lists.map((list) => (
         <div key={list._id} className="list">
           {list.name}
+          <DeleteButton />
         </div>
       ))}
     </div>

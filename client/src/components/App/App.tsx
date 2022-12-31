@@ -15,7 +15,7 @@ function App() {
     console.log("this is the useEffect")
     async function fetchLists() {
       const response = await fetch("http://localhost:5002/lists")
-      const fetchedLists = await response.json()
+      const fetchedLists: IList[] = await response.json()
       setLists(fetchedLists)
     }
     fetchLists().catch((e) => {
@@ -23,7 +23,7 @@ function App() {
     })
   }, [])
 
-  function handleClick() {
+  function handleNewListClick() {
     setInModal(true)
   }
 
@@ -46,7 +46,7 @@ function App() {
         _id: id
       })
     })
-    const deletedList = await response.json()
+    const deletedList: IList = await response.json()
     setLists(prevLists => prevLists.filter(list => list._id !== deletedList._id))
     console.log(lists)
   }
@@ -66,14 +66,14 @@ function App() {
         name: listName,
       }),
     })
-    const newList = await response.json()
+    const newList: IList = await response.json()
     setLists((prevLists) => [...prevLists, newList])
     handleCloseModal()
   }
 
   return (
     <div className="App">
-      <button className="btn__new-list" onClick={handleClick}>
+      <button className="btn__new-list" onClick={handleNewListClick}>
         Create New List
       </button>
       {inModal && (

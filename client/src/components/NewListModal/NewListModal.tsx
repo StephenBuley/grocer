@@ -35,7 +35,7 @@ export function NewListModal({
             autoFocus
           />
           <button className="modal__submit-btn" type="submit">
-            Submit
+            Send to My Husband
           </button>
         </div>
       </form>

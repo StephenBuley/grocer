@@ -43,6 +43,10 @@ async function main() {
         const lists = await ListSchema_1.default.find();
         res.send(lists);
     });
+    app.delete("/lists", async (req, res) => {
+        const deletedList = await ListSchema_1.default.findOneAndDelete({ _id: req.body._id });
+        res.send(deletedList);
+    });
     app.listen(PORT, () => {
         // starts the server listening
         console.log(`Hello there! from PORT ${PORT}`);

@@ -17,7 +17,7 @@ export function NewListModal({
   return (
     <div className="modal">
       <form className="modal__form" onSubmit={(e) => handleSubmit(e)}>
-        <button onClick={() => handleCloseModal()} className="close-button">
+        <button type="button" onClick={() => handleCloseModal()} className="close-button">
           X
         </button>
         <div className="modal__info">
@@ -32,6 +32,7 @@ export function NewListModal({
             value={listName}
             id="list-name"
             onChange={(e) => handleChange(e)}
+            autoFocus
           />
           <button className="modal__submit-btn" type="submit">
             Submit

@@ -48,8 +48,15 @@ async function main(): Promise<void> {
     res.send(lists)
   })
 
+  app.delete("/lists", async (req: Request<{_id: string}>, res) => {
+    const deletedList = await List.findOneAndDelete({_id: req.body._id})
+    res.send(deletedList) 
+  })
+
   app.listen(PORT, () => {
     // starts the server listening
     console.log(`Hello there! from PORT ${PORT}`)
   })
+
+  
 }

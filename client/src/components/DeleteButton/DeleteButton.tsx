@@ -1,7 +1,16 @@
+import React, {ReactElement} from "react"
 import "./DeleteButton.css"
 
-export default function DeleteButton() {
+type DeleteButtonProps = {
+  handleDeleteList: (id: string) => void
+  id: string
+}
+
+export default function DeleteButton({
+  handleDeleteList,
+  id
+}: DeleteButtonProps): ReactElement {
   return (
-    <button>X</button>
+    <button onClick={() => handleDeleteList(id)}>X</button>
   )
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import "./App.css"
 import { NewListModal } from "../NewListModal/NewListModal"
 import { IList } from "../../../../server/Schemas/ListSchema"
@@ -36,6 +36,21 @@ function App() {
     setInModal(false)
   }
 
+  async function handleDeleteList(id: string) {
+    const response = await fetch("http://localhost:5002/lists", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        _id: id
+      })
+    })
+    const deletedList = await response.json()
+    setLists(prevLists => prevLists.filter(list => list._id !== deletedList._id))
+    console.log(lists)
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (listName === "") {
@@ -53,7 +68,7 @@ function App() {
     })
     const newList = await response.json()
     setLists((prevLists) => [...prevLists, newList])
-    setInModal(false)
+    handleCloseModal()
   }
 
   return (
@@ -72,7 +87,7 @@ function App() {
       {lists.map((list) => (
         <div key={list._id} className="list">
           {list.name}
-          <DeleteButton />
+          <DeleteButton id={list._id!} handleDeleteList={handleDeleteList}/>
         </div>
       ))}
     </div>

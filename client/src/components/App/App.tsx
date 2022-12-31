@@ -9,8 +9,8 @@ function App() {
   const [listName, setListName] = useState("")
   const [lists, setLists] = useState<IList[]>([])
 
-  //TODO: initialize lists state with database call on app start up
-  // ReactQuery?
+  // should this use ReactQuery? Maybe
+  // need to refactor maybe?
   useEffect(() => {
     console.log("this is the useEffect")
     async function fetchLists() {

@@ -5,7 +5,7 @@ import { IList } from "../../../../server/Schemas/ListSchema"
 import DeleteButton from "../DeleteButton/DeleteButton"
 
 function App() {
-  const [inModal, setInModal] = useState<boolean>(false)
+  const [inModal, setInModal] = useState(false)
   const [listName, setListName] = useState("")
   const [lists, setLists] = useState<IList[]>([])
 

@@ -7,10 +7,6 @@ exports.ItemSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    quantity: {
-        type: Number,
-        required: true,
-    },
     checked: {
         type: Boolean,
         required: true,

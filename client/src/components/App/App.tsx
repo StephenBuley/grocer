@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react"
-import "./App.css"
-import { NewListModal } from "../NewListModal/NewListModal"
-import { IList } from "../../../../server/Schemas/ListSchema"
-import DeleteButton from "../DeleteButton/DeleteButton"
+import React, { useState, useEffect } from 'react'
+import './App.css'
+import { NewListModal } from '../NewListModal/NewListModal'
+import { IList } from '../../../../server/Schemas/ListSchema'
+import DeleteButton from '../DeleteButton/DeleteButton'
 
 function App() {
   const [inModal, setInModal] = useState(false)
-  const [listName, setListName] = useState("")
+  const [listName, setListName] = useState('')
   const [lists, setLists] = useState<IList[]>([])
 
   // should this use ReactQuery? Maybe
   // need to refactor maybe?
   useEffect(() => {
-    console.log("this is the useEffect")
+    console.log('this is the useEffect')
     async function fetchLists() {
-      const response = await fetch("http://localhost:5002/lists")
+      const response = await fetch('http://localhost:5002/lists')
       const fetchedLists: IList[] = await response.json()
       setLists(fetchedLists)
     }
@@ -32,35 +32,36 @@ function App() {
   }
 
   function handleCloseModal() {
-    setListName("")
+    setListName('')
     setInModal(false)
   }
 
   async function handleDeleteList(id: string) {
-    const response = await fetch("http://localhost:5002/lists", {
-      method: "DELETE",
+    const response = await fetch('http://localhost:5002/lists', {
+      method: 'DELETE',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        _id: id
-      })
+        _id: id,
+      }),
     })
     const deletedList: IList = await response.json()
-    setLists(prevLists => prevLists.filter(list => list._id !== deletedList._id))
-    console.log(lists)
+    setLists((prevLists) =>
+      prevLists.filter((list) => list._id !== deletedList._id),
+    )
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    if (listName === "") {
-      console.log("no name submitted")
+    if (listName === '') {
+      console.log('no name submitted')
       return
     }
-    const response = await fetch("http://localhost:5002/lists", {
-      method: "POST",
+    const response = await fetch('http://localhost:5002/lists', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         name: listName,
@@ -87,7 +88,7 @@ function App() {
       {lists.map((list) => (
         <div key={list._id} className="list">
           {list.name}
-          <DeleteButton id={list._id!} handleDeleteList={handleDeleteList}/>
+          <DeleteButton id={list._id!} handleDeleteList={handleDeleteList} />
         </div>
       ))}
     </div>

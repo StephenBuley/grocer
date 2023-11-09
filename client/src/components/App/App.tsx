@@ -72,6 +72,12 @@ function App() {
     handleCloseModal()
   }
 
+  async function handleListClick(id: string) {
+    console.log('clicked')
+    const response = await fetch(`http://localhost:5002/lists/${id}`)
+    console.log(await response.text())
+  }
+
   return (
     <div className="App">
       <button className="btn__new-list" onClick={handleNewListClick}>
@@ -87,7 +93,9 @@ function App() {
       )}
       {lists.map((list) => (
         <div key={list._id} className="list">
-          {list.name}
+          <button onClick={() => handleListClick(list._id!)}>
+            {list.name}
+          </button>
           <DeleteButton id={list._id!} handleDeleteList={handleDeleteList} />
         </div>
       ))}

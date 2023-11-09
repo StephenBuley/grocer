@@ -27,25 +27,29 @@ async function main() {
     const PORT = process_1.default.env.PORT;
     const app = (0, express_1.default)();
     app.use((0, cors_1.default)({
-        origin: "http://localhost:5173"
+        origin: 'http://localhost:5173',
     })); // change these options when deploying to only allow your frontend to
     //                  communicate with your backend
     app.use(body_parser_1.default.json()); // backend accepts and sends json
-    app.get("/", (req, res) => {
-        res.json({ string: "hello from the server" });
+    app.get('/', (req, res) => {
+        res.json({ string: 'hello from the server' });
     });
-    app.post("/lists", async (req, res) => {
+    app.post('/lists', async (req, res) => {
         const newList = new ListSchema_1.default({ name: req.body.name, items: [] });
         await newList.save();
         res.send(newList);
     });
-    app.get("/lists", async (req, res) => {
+    app.get('/lists', async (req, res) => {
         const lists = await ListSchema_1.default.find();
         res.send(lists);
     });
-    app.delete("/lists", async (req, res) => {
+    app.delete('/lists', async (req, res) => {
         const deletedList = await ListSchema_1.default.findOneAndDelete({ _id: req.body._id });
         res.send(deletedList);
+    });
+    app.get('/lists/:id', (req, res) => {
+        console.log('Endpoint hit!');
+        res.send(`<p>${req.params.id}</p>`);
     });
     app.listen(PORT, () => {
         // starts the server listening

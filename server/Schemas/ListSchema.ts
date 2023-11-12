@@ -1,5 +1,5 @@
-import { Schema, model } from "mongoose"
-import { IItem, ItemSchema } from "./ItemSchema"
+import { Schema, model } from 'mongoose'
+import { IItem, ItemSchema } from './ItemSchema.js'
 
 export interface IList {
   name: string
@@ -15,6 +15,6 @@ const ListSchema = new Schema<IList>({
   items: [ItemSchema],
 })
 
-const List = model<IList>("List", ListSchema)
+const List = model<IList>('List', ListSchema)
 
 export default List

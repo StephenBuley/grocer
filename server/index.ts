@@ -7,7 +7,8 @@ import process from 'process'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import mongoose from 'mongoose'
-import List from './Schemas/ListSchema'
+import List from './Schemas/ListSchema.js'
+import { RequestOptions, request } from 'urllib'
 // import User from './Schemas/UserSchema';
 
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.4kodetu.mongodb.net/grocer?retryWrites=true&w=majority`
@@ -15,8 +16,18 @@ main().catch((err) => console.error(err))
 // top level async await functionality
 async function main(): Promise<void> {
   //TODO: fix database connection (switching IP addresses?)
+
   await mongoose.connect(uri) // asynchronously connects to database
 
+  const baseUrl = 'https://cloud.mongodb.com/api/atlas/v2/groups'
+  const { PUBLIC_KEY, PRIVATE_KEY } = process.env
+  const options: RequestOptions = {
+    digestAuth: `${PUBLIC_KEY}:${PRIVATE_KEY}`,
+    headers: { accept: 'application/vnd.atlas.2023-01-01+json' },
+  }
+
+  const { data, res } = await request(baseUrl, options)
+  console.log(JSON.parse(data))
   // const testUser = new User({          //this is an example of creating and saving
   //                                           // a new user
   //     username: "Test Number " + Date.now(),

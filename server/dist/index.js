@@ -1,50 +1,54 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv_1 = require("dotenv");
-(0, dotenv_1.config)();
-const express_1 = __importDefault(require("express"));
-const process_1 = __importDefault(require("process"));
-const body_parser_1 = __importDefault(require("body-parser"));
-const cors_1 = __importDefault(require("cors"));
-const mongoose_1 = __importDefault(require("mongoose"));
-const ListSchema_1 = __importDefault(require("./Schemas/ListSchema"));
+import { config } from 'dotenv';
+config();
+import express from 'express';
+import process from 'process';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import List from './Schemas/ListSchema.js';
+import { request } from 'urllib';
 // import User from './Schemas/UserSchema';
-const uri = `mongodb+srv://${process_1.default.env.DB_USERNAME}:${process_1.default.env.DB_PASSWORD}@cluster0.4kodetu.mongodb.net/grocer?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.4kodetu.mongodb.net/grocer?retryWrites=true&w=majority`;
 main().catch((err) => console.error(err));
 // top level async await functionality
 async function main() {
     //TODO: fix database connection (switching IP addresses?)
-    await mongoose_1.default.connect(uri); // asynchronously connects to database
+    await mongoose.connect(uri); // asynchronously connects to database
+    const baseUrl = 'https://cloud.mongodb.com/api/atlas/v2/groups';
+    const { PUBLIC_KEY, PRIVATE_KEY } = process.env;
+    const options = {
+        digestAuth: `${PUBLIC_KEY}:${PRIVATE_KEY}`,
+        headers: { accept: 'application/vnd.atlas.2023-01-01+json' },
+    };
+    const { data, res } = await request(baseUrl, options);
+    console.log(JSON.parse(data));
     // const testUser = new User({          //this is an example of creating and saving
     //                                           // a new user
     //     username: "Test Number " + Date.now(),
     //     password: "bob"
     // })
     // await testUser.save()
-    const PORT = process_1.default.env.PORT;
-    const app = (0, express_1.default)();
-    app.use((0, cors_1.default)({
+    const PORT = process.env.PORT;
+    const app = express();
+    app.use(cors({
         origin: 'http://localhost:5173',
     })); // change these options when deploying to only allow your frontend to
     //                  communicate with your backend
-    app.use(body_parser_1.default.json()); // backend accepts and sends json
+    app.use(bodyParser.json()); // backend accepts and sends json
     app.get('/', (req, res) => {
         res.json({ string: 'hello from the server' });
     });
     app.post('/lists', async (req, res) => {
-        const newList = new ListSchema_1.default({ name: req.body.name, items: [] });
+        const newList = new List({ name: req.body.name, items: [] });
         await newList.save();
         res.send(newList);
     });
     app.get('/lists', async (req, res) => {
-        const lists = await ListSchema_1.default.find();
+        const lists = await List.find();
         res.send(lists);
     });
     app.delete('/lists', async (req, res) => {
-        const deletedList = await ListSchema_1.default.findOneAndDelete({ _id: req.body._id });
+        const deletedList = await List.findOneAndDelete({ _id: req.body._id });
         res.send(deletedList);
     });
     app.get('/lists/:id', (req, res) => {

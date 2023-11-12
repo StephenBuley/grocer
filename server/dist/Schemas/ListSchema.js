@@ -1,13 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = require("mongoose");
-const ItemSchema_1 = require("./ItemSchema");
-const ListSchema = new mongoose_1.Schema({
+import { Schema, model } from 'mongoose';
+import { ItemSchema } from './ItemSchema.js';
+const ListSchema = new Schema({
     name: {
         type: String,
         required: true,
     },
-    items: [ItemSchema_1.ItemSchema],
+    items: [ItemSchema],
 });
-const List = (0, mongoose_1.model)("List", ListSchema);
-exports.default = List;
+const List = model('List', ListSchema);
+export default List;

@@ -56,7 +56,6 @@ async function main(): Promise<void> {
   })
 
   app.get('/lists/:id', (req, res) => {
-    console.log('Endpoint hit!')
     res.send(`<p>${req.params.id}</p>`)
   })
 

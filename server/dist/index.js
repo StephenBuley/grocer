@@ -43,7 +43,6 @@ async function main() {
         res.send(deletedList);
     });
     app.get('/lists/:id', (req, res) => {
-        console.log('Endpoint hit!');
         res.send(`<p>${req.params.id}</p>`);
     });
     app.listen(PORT, () => {

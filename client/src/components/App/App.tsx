@@ -73,7 +73,6 @@ function App() {
   }
 
   async function handleListClick(id: string) {
-    console.log('clicked')
     const response = await fetch(`http://localhost:5002/lists/${id}`)
     console.log(await response.text())
   }

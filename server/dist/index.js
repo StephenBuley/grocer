@@ -8,10 +8,10 @@ import mongoose from 'mongoose';
 import List from './Schemas/ListSchema.js';
 // import User from './Schemas/UserSchema';
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.4kodetu.mongodb.net/grocer?retryWrites=true&w=majority`;
+mongoose.set('strictQuery', false);
 main().catch((err) => console.error(err));
 // top level async await functionality
 async function main() {
-    //TODO: fix database connection (switching IP addresses?)
     await mongoose.connect(uri); // asynchronously connects to database
     // const testUser = new User({          //this is an example of creating and saving
     //                                           // a new user

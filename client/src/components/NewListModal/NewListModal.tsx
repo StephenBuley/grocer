@@ -1,5 +1,5 @@
-import React, { ReactElement } from "react"
-import "./NewListModal.css"
+import React, { ReactElement } from 'react'
+import './NewListModal.css'
 
 type ModalProps = {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
@@ -17,7 +17,11 @@ export function NewListModal({
   return (
     <div className="modal">
       <form className="modal__form" onSubmit={(e) => handleSubmit(e)}>
-        <button type="button" onClick={() => handleCloseModal()} className="close-button">
+        <button
+          type="button"
+          onClick={() => handleCloseModal()}
+          className="close-button"
+        >
           X
         </button>
         <div className="modal__info">
@@ -35,7 +39,7 @@ export function NewListModal({
             autoFocus
           />
           <button className="modal__submit-btn" type="submit">
-            Send to My Husband
+            Create List
           </button>
         </div>
       </form>

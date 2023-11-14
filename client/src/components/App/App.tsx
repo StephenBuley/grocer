@@ -52,7 +52,7 @@ function App() {
     )
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleModalSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (listName === '') {
       console.log('no name submitted')
@@ -84,7 +84,7 @@ function App() {
       </button>
       {inModal && (
         <NewListModal
-          handleSubmit={handleSubmit}
+          handleSubmit={handleModalSubmit}
           handleChange={handleChange}
           handleCloseModal={handleCloseModal}
           listName={listName}

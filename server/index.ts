@@ -6,7 +6,7 @@ import { Request } from 'express'
 import process from 'process'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import mongoose, { mongo } from 'mongoose'
+import mongoose from 'mongoose'
 import List from './Schemas/ListSchema.js'
 // import User from './Schemas/UserSchema';
 

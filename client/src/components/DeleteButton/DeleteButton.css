@@ -1,3 +1,7 @@
+.delete-form {
+  display: inline;
+}
+
 .delete-btn {
   margin-left: 0.5em;
 }

@@ -3,12 +3,29 @@ import './App.css'
 import { NewListModal } from '../NewListModal/NewListModal'
 import { IList } from '../../../../server/Schemas/ListSchema'
 import ListOfLists from '../ListOfLists/ListOfLists'
-import { useLoaderData } from 'react-router-dom'
+import { redirect, useLoaderData, useRevalidator } from 'react-router-dom'
 
 export async function loader() {
+  console.log('this is happening')
   const response = await fetch('http://localhost:5002/lists')
   const fetchedLists: IList[] = await response.json()
   return fetchedLists
+}
+
+export async function destroyAction({ request }: { request: Request }) {
+  const id = (await request.formData()).get('listToDelete')
+  const response = await fetch('http://localhost:5002/lists', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      _id: id,
+    }),
+  })
+  const deletedList: IList = await response.json()
+  console.log(deletedList)
+  return redirect('/')
 }
 
 function App() {
@@ -22,6 +39,10 @@ function App() {
     setInModal(true)
   }
 
+  function handleDelete(id: string) {
+    setLists((prevLists) => prevLists.filter((list) => list._id !== id))
+  }
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setListName(e.target.value)
   }
@@ -29,22 +50,6 @@ function App() {
   function handleCloseModal() {
     setListName('')
     setInModal(false)
-  }
-
-  async function handleDeleteList(id: string) {
-    const response = await fetch('http://localhost:5002/lists', {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        _id: id,
-      }),
-    })
-    const deletedList: IList = await response.json()
-    setLists((prevLists) =>
-      prevLists.filter((list) => list._id !== deletedList._id),
-    )
   }
 
   async function handleModalSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -87,8 +92,8 @@ function App() {
       )}
       <ListOfLists
         lists={lists}
-        handleDeleteList={handleDeleteList}
         handleListClick={handleListClick}
+        handleDelete={handleDelete}
       />
     </div>
   )

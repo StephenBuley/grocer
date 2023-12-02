@@ -1,16 +1,16 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { IList } from '../../../../server/Schemas/ListSchema'
 import DeleteButton from '../DeleteButton/DeleteButton'
 type ListOfListProps = {
   lists: IList[]
   handleListClick: (id: string) => void
-  handleDeleteList: (id: string) => void
+  handleDelete: (id: string) => void
 }
 
 export default function ListOfLists({
   lists,
   handleListClick,
-  handleDeleteList,
+  handleDelete,
 }: ListOfListProps): ReactElement {
   return (
     <div>
@@ -19,7 +19,7 @@ export default function ListOfLists({
           <button onClick={() => handleListClick(list._id!)}>
             {list.name}
           </button>
-          <DeleteButton id={list._id!} handleDeleteList={handleDeleteList} />
+          <DeleteButton id={list._id!} handleDelete={handleDelete} />
         </div>
       ))}
     </div>

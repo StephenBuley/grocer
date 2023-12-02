@@ -1,27 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import './App.css'
 import { NewListModal } from '../NewListModal/NewListModal'
 import { IList } from '../../../../server/Schemas/ListSchema'
 import ListOfLists from '../ListOfLists/ListOfLists'
+import { useLoaderData } from 'react-router-dom'
+
+export async function loader() {
+  const response = await fetch('http://localhost:5002/lists')
+  const fetchedLists: IList[] = await response.json()
+  return fetchedLists
+}
 
 function App() {
+  const fetchedLists = useLoaderData() as IList[]
+
   const [inModal, setInModal] = useState(false)
   const [listName, setListName] = useState('')
-  const [lists, setLists] = useState<IList[]>([])
-
-  // should this use ReactQuery? Maybe
-  // need to refactor maybe?
-  useEffect(() => {
-    console.log('this is the useEffect')
-    async function fetchLists() {
-      const response = await fetch('http://localhost:5002/lists')
-      const fetchedLists: IList[] = await response.json()
-      setLists(fetchedLists)
-    }
-    fetchLists().catch((e) => {
-      console.error(e)
-    })
-  }, [])
+  const [lists, setLists] = useState<IList[]>(fetchedLists)
 
   function handleNewListClick() {
     setInModal(true)

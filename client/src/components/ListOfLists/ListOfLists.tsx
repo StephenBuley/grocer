@@ -12,7 +12,9 @@ export default function ListOfLists({ lists }: ListOfListProps): ReactElement {
     <div className="list-of-lists">
       {lists.map((list) => (
         <div key={list._id} className="list">
-          <Link to={`/lists/${list._id}`}>{list.name}</Link>
+          <Link to={`/lists/${list._id}`} className="btn">
+            {list.name}
+          </Link>
           <DeleteButton id={list._id!} />
         </div>
       ))}

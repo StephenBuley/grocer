@@ -20,7 +20,7 @@ export async function action({ request }: { request: Request }) {
     }),
   })
   const newList: IList = await response.json()
-  return redirect('/')
+  return redirect(`/lists/${newList._id}`)
 }
 
 export function NewListModal(): ReactElement {
@@ -36,7 +36,7 @@ export function NewListModal(): ReactElement {
       <Form className="modal__form" action="/lists/createList" method="post">
         <button
           type="button"
-          className="close-button"
+          className="btn close-button"
           onClick={() => navigate('/')}
         >
           X
@@ -55,7 +55,7 @@ export function NewListModal(): ReactElement {
             onChange={(e) => handleChange(e)}
             autoFocus
           />
-          <button className="modal__submit-btn" type="submit">
+          <button className="btn modal__submit-btn" type="submit">
             Create List
           </button>
         </div>

@@ -10,7 +10,7 @@ export default function DeleteButton({ id }: DeleteButtonProps): ReactElement {
   return (
     <Form className="delete-form" method="post" action={`/destroy`}>
       <button
-        className="delete-btn"
+        className="btn delete-btn"
         name="listToDelete"
         value={id}
         type="submit"

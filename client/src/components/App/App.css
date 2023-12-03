@@ -26,6 +26,8 @@
 }
 .title {
   font-size: 2rem;
+  cursor: pointer;
+
   /* gradient background */
   background-color: #646cff;
   background-image: linear-gradient(45deg, #747cff, #f4fbff);

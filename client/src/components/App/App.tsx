@@ -31,8 +31,10 @@ function App() {
     <div className="App">
       <div className="sidebar">
         <div className="header">
-          <h1 className="title">grocer</h1>
-          <Link to={'/lists/createList'} className="btn__new-list">
+          <h1 className="title">
+            <Link to="/">grocer</Link>
+          </h1>
+          <Link to={'/lists/createList'} className="btn btn__new-list">
             New
           </Link>
         </div>

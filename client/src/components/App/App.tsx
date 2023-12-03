@@ -1,6 +1,4 @@
-import { useState } from 'react'
 import './App.css'
-import { NewListModal } from '../NewListModal/NewListModal'
 import { IList } from '../../../../server/Schemas/ListSchema'
 import ListOfLists from '../ListOfLists/ListOfLists'
 import { Link, Outlet, redirect, useLoaderData } from 'react-router-dom'
@@ -29,8 +27,6 @@ export async function destroyAction({ request }: { request: Request }) {
 function App() {
   const fetchedLists = useLoaderData() as IList[]
 
-  const [inModal, setInModal] = useState(false)
-
   return (
     <div className="App">
       <div className="sidebar">
@@ -40,7 +36,6 @@ function App() {
             New
           </Link>
         </div>
-        {inModal && <NewListModal />}
         <ListOfLists lists={fetchedLists} />
       </div>
       <div className="view-panel">

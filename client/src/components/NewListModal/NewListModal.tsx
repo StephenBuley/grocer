@@ -1,18 +1,11 @@
-import React, { ReactElement } from 'react'
-import { Form, redirect } from 'react-router-dom'
+import React, { ReactElement, useState } from 'react'
+import { Form, redirect, useNavigate } from 'react-router-dom'
 import './NewListModal.css'
 import { IList } from '../../../../server/Schemas/ListSchema'
-
-type ModalProps = {
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  handleCloseModal: () => void
-  listName: string
-}
 
 export async function action({ request }: { request: Request }) {
   const formData = await request.formData()
   const listName = formData.get('listName')
-  console.log(listName)
   if (listName === '') {
     console.log('no name submitted')
     return
@@ -30,18 +23,21 @@ export async function action({ request }: { request: Request }) {
   return redirect('/')
 }
 
-export function NewListModal({
-  handleChange,
-  handleCloseModal,
-  listName,
-}: ModalProps): ReactElement {
+export function NewListModal(): ReactElement {
+  const navigate = useNavigate()
+  const [listName, setListName] = useState('')
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setListName(e.currentTarget.value)
+  }
+
   return (
     <div className="modal">
       <Form className="modal__form" action="/lists/createList" method="post">
         <button
           type="button"
-          onClick={() => handleCloseModal()}
           className="close-button"
+          onClick={() => navigate('/')}
         >
           X
         </button>

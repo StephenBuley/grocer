@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import './App.css'
 import { NewListModal } from '../NewListModal/NewListModal'
 import { IList } from '../../../../server/Schemas/ListSchema'
 import ListOfLists from '../ListOfLists/ListOfLists'
-import { Outlet, redirect, useLoaderData } from 'react-router-dom'
+import { Link, Outlet, redirect, useLoaderData } from 'react-router-dom'
 
 export async function loader() {
   const response = await fetch('http://localhost:5002/lists')
@@ -30,37 +30,17 @@ function App() {
   const fetchedLists = useLoaderData() as IList[]
 
   const [inModal, setInModal] = useState(false)
-  const [listName, setListName] = useState('')
-
-  function handleNewListClick() {
-    setInModal(true)
-  }
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setListName(e.target.value)
-  }
-
-  function handleCloseModal() {
-    setListName('')
-    setInModal(false)
-  }
 
   return (
     <div className="App">
       <div className="sidebar">
         <div className="header">
           <h1 className="title">grocer</h1>
-          <button className="btn__new-list" onClick={handleNewListClick}>
+          <Link to={'/lists/createList'} className="btn__new-list">
             New
-          </button>
+          </Link>
         </div>
-        {inModal && (
-          <NewListModal
-            handleChange={handleChange}
-            handleCloseModal={handleCloseModal}
-            listName={listName}
-          />
-        )}
+        {inModal && <NewListModal />}
         <ListOfLists lists={fetchedLists} />
       </div>
       <div className="view-panel">

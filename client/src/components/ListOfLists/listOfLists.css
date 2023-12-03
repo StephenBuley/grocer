@@ -1,0 +1,15 @@
+.list-of-lists {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid #e3e3e3;
+}
+
+.list:last-child {
+  border-bottom: 1px solid #e3e3e3;
+}

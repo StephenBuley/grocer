@@ -3,7 +3,7 @@ import './App.css'
 import { NewListModal } from '../NewListModal/NewListModal'
 import { IList } from '../../../../server/Schemas/ListSchema'
 import ListOfLists from '../ListOfLists/ListOfLists'
-import { redirect, useLoaderData } from 'react-router-dom'
+import { Outlet, redirect, useLoaderData } from 'react-router-dom'
 
 export async function loader() {
   console.log('this is happening')
@@ -73,18 +73,26 @@ function App() {
 
   return (
     <div className="App">
-      <button className="btn__new-list" onClick={handleNewListClick}>
-        Create New List
-      </button>
-      {inModal && (
-        <NewListModal
-          handleSubmit={handleModalSubmit}
-          handleChange={handleChange}
-          handleCloseModal={handleCloseModal}
-          listName={listName}
-        />
-      )}
-      <ListOfLists lists={fetchedLists} handleListClick={handleListClick} />
+      <div className="sidebar">
+        <div className="header">
+          <h1 className="title">grocer</h1>
+          <button className="btn__new-list" onClick={handleNewListClick}>
+            New
+          </button>
+        </div>
+        {inModal && (
+          <NewListModal
+            handleSubmit={handleModalSubmit}
+            handleChange={handleChange}
+            handleCloseModal={handleCloseModal}
+            listName={listName}
+          />
+        )}
+        <ListOfLists lists={fetchedLists} handleListClick={handleListClick} />
+      </div>
+      <div className="view-panel">
+        <Outlet />
+      </div>
     </div>
   )
 }

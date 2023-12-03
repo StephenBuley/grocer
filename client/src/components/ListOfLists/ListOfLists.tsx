@@ -1,4 +1,6 @@
 import { ReactElement } from 'react'
+import { Link } from 'react-router-dom'
+import './listOfLists.css'
 import { IList } from '../../../../server/Schemas/ListSchema'
 import DeleteButton from '../DeleteButton/DeleteButton'
 type ListOfListProps = {
@@ -11,12 +13,15 @@ export default function ListOfLists({
   handleListClick,
 }: ListOfListProps): ReactElement {
   return (
-    <div>
+    <div className="list-of-lists">
       {lists.map((list) => (
         <div key={list._id} className="list">
-          <button onClick={() => handleListClick(list._id!)}>
+          <Link
+            to={`/lists/${list._id}`}
+            onClick={() => handleListClick(list._id!)}
+          >
             {list.name}
-          </button>
+          </Link>
           <DeleteButton id={list._id!} />
         </div>
       ))}

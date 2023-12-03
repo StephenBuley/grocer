@@ -3,7 +3,7 @@ import './App.css'
 import { NewListModal } from '../NewListModal/NewListModal'
 import { IList } from '../../../../server/Schemas/ListSchema'
 import ListOfLists from '../ListOfLists/ListOfLists'
-import { redirect, useLoaderData, useRevalidator } from 'react-router-dom'
+import { redirect, useLoaderData } from 'react-router-dom'
 
 export async function loader() {
   console.log('this is happening')
@@ -33,14 +33,9 @@ function App() {
 
   const [inModal, setInModal] = useState(false)
   const [listName, setListName] = useState('')
-  const [lists, setLists] = useState<IList[]>(fetchedLists)
 
   function handleNewListClick() {
     setInModal(true)
-  }
-
-  function handleDelete(id: string) {
-    setLists((prevLists) => prevLists.filter((list) => list._id !== id))
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -68,7 +63,6 @@ function App() {
       }),
     })
     const newList: IList = await response.json()
-    setLists((prevLists) => [...prevLists, newList])
     handleCloseModal()
   }
 
@@ -90,11 +84,7 @@ function App() {
           listName={listName}
         />
       )}
-      <ListOfLists
-        lists={lists}
-        handleListClick={handleListClick}
-        handleDelete={handleDelete}
-      />
+      <ListOfLists lists={fetchedLists} handleListClick={handleListClick} />
     </div>
   )
 }

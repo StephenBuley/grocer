@@ -1,23 +1,14 @@
 import { ReactElement } from 'react'
 import './DeleteButton.css'
-import { Form, useSubmit } from 'react-router-dom'
+import { Form } from 'react-router-dom'
 
 type DeleteButtonProps = {
-  handleDelete: (id: string) => void
   id: string
 }
 
-export default function DeleteButton({
-  id,
-  handleDelete,
-}: DeleteButtonProps): ReactElement {
+export default function DeleteButton({ id }: DeleteButtonProps): ReactElement {
   return (
-    <Form
-      className="delete-form"
-      method="post"
-      action={`/destroy`}
-      onSubmit={() => handleDelete(id)}
-    >
+    <Form className="delete-form" method="post" action={`/destroy`}>
       <button
         className="delete-btn"
         name="listToDelete"

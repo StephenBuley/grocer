@@ -4,13 +4,11 @@ import DeleteButton from '../DeleteButton/DeleteButton'
 type ListOfListProps = {
   lists: IList[]
   handleListClick: (id: string) => void
-  handleDelete: (id: string) => void
 }
 
 export default function ListOfLists({
   lists,
   handleListClick,
-  handleDelete,
 }: ListOfListProps): ReactElement {
   return (
     <div>
@@ -19,7 +17,7 @@ export default function ListOfLists({
           <button onClick={() => handleListClick(list._id!)}>
             {list.name}
           </button>
-          <DeleteButton id={list._id!} handleDelete={handleDelete} />
+          <DeleteButton id={list._id!} />
         </div>
       ))}
     </div>

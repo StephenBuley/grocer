@@ -6,7 +6,6 @@ import ListOfLists from '../ListOfLists/ListOfLists'
 import { Outlet, redirect, useLoaderData } from 'react-router-dom'
 
 export async function loader() {
-  console.log('this is happening')
   const response = await fetch('http://localhost:5002/lists')
   const fetchedLists: IList[] = await response.json()
   return fetchedLists
@@ -24,7 +23,6 @@ export async function destroyAction({ request }: { request: Request }) {
     }),
   })
   const deletedList: IList = await response.json()
-  console.log(deletedList)
   return redirect('/')
 }
 

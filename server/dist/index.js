@@ -42,8 +42,11 @@ async function main() {
         const deletedList = await List.findOneAndDelete({ _id: req.body._id });
         res.send(deletedList);
     });
-    app.get('/lists/:id', (req, res) => {
-        res.send(`<p>${req.params.id}</p>`);
+    app.get('/lists/:id', async (req, res) => {
+        console.log(req.params.id);
+        const foundList = await List.findById(req.params.id);
+        console.log(foundList);
+        res.send(foundList);
     });
     app.listen(PORT, () => {
         // starts the server listening

@@ -15,14 +15,6 @@
   -webkit-text-size-adjust: 100%;
 }
 
-a {
-  font-weight: 500;
-  text-decoration: inherit;
-  color: inherit;
-  display: flex;
-  align-items: center;
-}
-
 body {
   margin: 0;
   display: flex;
@@ -36,6 +28,10 @@ h1 {
 }
 
 .btn {
+  text-decoration: inherit;
+  color: inherit;
+  display: flex;
+  align-items: center;
   border-radius: 8px;
   border: 1px solid transparent;
   height: 3em;

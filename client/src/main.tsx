@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/lists/:listId',
-        element: <List title={'title'} />,
+        element: <List />,
         loader: listLoader,
       },
       {

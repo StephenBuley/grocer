@@ -6,7 +6,7 @@ import {
   redirect,
 } from 'react-router-dom'
 import { IList } from '../../../../server/Schemas/ListSchema'
-import { useState } from 'react'
+import './List.css'
 
 export async function loader({ params }: { params: Params<string> }) {
   const response = await fetch(`http://localhost:5002/lists/${params.listId}`)
@@ -27,8 +27,7 @@ export async function newItemAction({ params }: { params: Params<string> }) {
       },
     }),
   })
-  const newList: IList = await response.json()
-  console.log(newList)
+  await response.json()
   return redirect(`/lists/${params.listId}`)
 }
 
@@ -40,39 +39,49 @@ export async function checkAction({
   params: Params<string>
 }) {
   const formData = await request.formData()
-  console.log(formData.get(params.itemId!))
-  return formData
+  const newChecked = formData.get(params.itemId!) === 'true'
+  return fetch(
+    `http://localhost:5002/lists/${params.listId}/${params.itemId}`,
+    {
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        checked: !newChecked, // true when button is unchecked
+      }),
+    },
+  )
 }
 
 export default function List() {
   const fetcher = useFetcher()
   const fetchedList = useLoaderData() as IList
   const { items } = fetchedList
+
   return (
     <div className="grocery-list">
       <h2 className="list-title">{fetchedList.name}</h2>
 
       {items && items.length ? (
-        items.map((item) => (
-          <fetcher.Form
-            method="put"
-            action={`/lists/${fetchedList._id}/${item._id}`}
-            key={item._id}
-          >
-            <label htmlFor={item.name}>
-              <input
-                name={item._id}
-                type="checkbox"
-                value={item.name}
-                checked={item.checked}
-                onChange={(e) => {
-                  fetcher.submit(e.currentTarget.form)
-                }}
-              />
-              {item.name}
-            </label>
-          </fetcher.Form>
-        ))
+        items.map((item) => {
+          return (
+            <fetcher.Form
+              method="put"
+              action={`/lists/${fetchedList._id}/${item._id}`}
+              key={item._id.toString()}
+            >
+              <label htmlFor={item.name}>
+                <button
+                  className={`checkmark ${item.checked ? 'checked' : ''}`}
+                  name={item._id.toString()}
+                  value={String(item.checked)}
+                />
+                {item.name}
+              </label>
+            </fetcher.Form>
+          )
+        })
       ) : (
         <div>No Items Found</div>
       )}

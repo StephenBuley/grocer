@@ -1,9 +1,9 @@
-import { Schema, model } from 'mongoose'
+import mongoose, { Schema, model } from 'mongoose'
 
 export interface IItem {
   name: string
   checked: boolean
-  _id: string
+  _id: mongoose.Types.ObjectId
 }
 
 export const ItemSchema = new Schema<IItem>({

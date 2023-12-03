@@ -57,6 +57,22 @@ async function main() {
         const newList = await List.findById(req.params.id);
         res.send(newList);
     });
+    app.put('/lists/:id/:itemId', async (req, res) => {
+        const item = await Item.findById(req.params.itemId);
+        item.checked = req.body.checked;
+        await item.save();
+        const list = await List.findById(req.params.id);
+        list.items = list.items.map((listItem) => {
+            if (listItem._id.equals(item._id)) {
+                return item;
+            }
+            else {
+                return listItem;
+            }
+        });
+        await list.save();
+        res.sendStatus(200);
+    });
     app.listen(PORT, () => {
         // starts the server listening
         console.log(`Hello there! from PORT ${PORT}`);

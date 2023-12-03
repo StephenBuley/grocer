@@ -65,6 +65,11 @@ export default function List() {
 
       {items && items.length ? (
         items.map((item) => {
+          let checked = item.checked
+          if (fetcher.formData) {
+            checked = fetcher.formData.get(item._id.toString()) === 'false'
+          }
+
           return (
             <fetcher.Form
               method="put"
@@ -73,9 +78,9 @@ export default function List() {
             >
               <label htmlFor={item.name}>
                 <button
-                  className={`checkmark ${item.checked ? 'checked' : ''}`}
+                  className={`checkmark ${checked ? 'checked' : ''}`}
                   name={item._id.toString()}
-                  value={String(item.checked)}
+                  value={String(checked)}
                 />
                 {item.name}
               </label>

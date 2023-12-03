@@ -1,11 +1,34 @@
 import React, { ReactElement } from 'react'
+import { Form, redirect } from 'react-router-dom'
 import './NewListModal.css'
+import { IList } from '../../../../server/Schemas/ListSchema'
 
 type ModalProps = {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   handleCloseModal: () => void
   listName: string
+}
+
+export async function action({ request }: { request: Request }) {
+  const formData = await request.formData()
+  const listName = formData.get('listName')
+  console.log(listName)
+  if (listName === '') {
+    console.log('no name submitted')
+    return
+  }
+  const response = await fetch('http://localhost:5002/lists', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: listName,
+    }),
+  })
+  const newList: IList = await response.json()
+  return redirect('/')
 }
 
 export function NewListModal({
@@ -16,7 +39,7 @@ export function NewListModal({
 }: ModalProps): ReactElement {
   return (
     <div className="modal">
-      <form className="modal__form" onSubmit={(e) => handleSubmit(e)}>
+      <Form className="modal__form" action="/lists/createList" method="post">
         <button
           type="button"
           onClick={() => handleCloseModal()}
@@ -25,16 +48,16 @@ export function NewListModal({
           X
         </button>
         <div className="modal__info">
-          <label htmlFor="list-name" className="modal__label">
+          <label htmlFor="listName" className="modal__label">
             New List Name
           </label>
           <input
             className="modal__input"
             autoComplete="off"
             type="text"
-            name="list-name"
+            name="listName"
             value={listName}
-            id="list-name"
+            id="listName"
             onChange={(e) => handleChange(e)}
             autoFocus
           />
@@ -42,7 +65,7 @@ export function NewListModal({
             Create List
           </button>
         </div>
-      </form>
+      </Form>
     </div>
   )
 }

@@ -64,11 +64,6 @@ function App() {
     handleCloseModal()
   }
 
-  async function handleListClick(id: string) {
-    const response = await fetch(`http://localhost:5002/lists/${id}`)
-    console.log(await response.text())
-  }
-
   return (
     <div className="App">
       <div className="sidebar">
@@ -86,7 +81,7 @@ function App() {
             listName={listName}
           />
         )}
-        <ListOfLists lists={fetchedLists} handleListClick={handleListClick} />
+        <ListOfLists lists={fetchedLists} />
       </div>
       <div className="view-panel">
         <Outlet />

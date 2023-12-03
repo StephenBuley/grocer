@@ -45,25 +45,6 @@ function App() {
     setInModal(false)
   }
 
-  async function handleModalSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    if (listName === '') {
-      console.log('no name submitted')
-      return
-    }
-    const response = await fetch('http://localhost:5002/lists', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: listName,
-      }),
-    })
-    const newList: IList = await response.json()
-    handleCloseModal()
-  }
-
   return (
     <div className="App">
       <div className="sidebar">
@@ -75,7 +56,6 @@ function App() {
         </div>
         {inModal && (
           <NewListModal
-            handleSubmit={handleModalSubmit}
             handleChange={handleChange}
             handleCloseModal={handleCloseModal}
             listName={listName}

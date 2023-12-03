@@ -4,7 +4,6 @@ import './NewListModal.css'
 import { IList } from '../../../../server/Schemas/ListSchema'
 
 type ModalProps = {
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   handleCloseModal: () => void
   listName: string
@@ -32,7 +31,6 @@ export async function action({ request }: { request: Request }) {
 }
 
 export function NewListModal({
-  handleSubmit,
   handleChange,
   handleCloseModal,
   listName,

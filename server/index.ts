@@ -8,6 +8,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import List from './Schemas/ListSchema.js'
+import Item, { IItem } from './Schemas/ItemSchema.js'
 // import User from './Schemas/UserSchema';
 
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.4kodetu.mongodb.net/grocer?retryWrites=true&w=majority`
@@ -56,10 +57,24 @@ async function main(): Promise<void> {
   })
 
   app.get('/lists/:id', async (req, res) => {
-    console.log(req.params.id)
     const foundList = await List.findById(req.params.id)
-    console.log(foundList)
     res.send(foundList)
+  })
+
+  app.post('/lists/:id', async (req, res) => {
+    const newItem = new Item(req.body.newItem)
+    await newItem.save()
+
+    const list = await List.findById(req.params.id)
+    if (list !== null) {
+      await List.updateOne(
+        { _id: req.params.id },
+        { items: [...(list.items as IItem[]), newItem] },
+      )
+    }
+
+    const newList = await List.findById(req.params.id)
+    res.send(newList)
   })
 
   app.listen(PORT, () => {

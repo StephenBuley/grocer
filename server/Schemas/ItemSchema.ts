@@ -1,8 +1,9 @@
-import { Schema, model } from "mongoose"
+import { Schema, model } from 'mongoose'
 
 export interface IItem {
   name: string
   checked: boolean
+  _id: string
 }
 
 export const ItemSchema = new Schema<IItem>({
@@ -16,6 +17,6 @@ export const ItemSchema = new Schema<IItem>({
   },
 })
 
-const Item = model<IItem>("Item", ItemSchema)
+const Item = model<IItem>('Item', ItemSchema)
 
 export default Item

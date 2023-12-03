@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
 export const ItemSchema = new Schema({
     name: {
         type: String,
@@ -9,5 +9,5 @@ export const ItemSchema = new Schema({
         required: true,
     },
 });
-const Item = model("Item", ItemSchema);
+const Item = model('Item', ItemSchema);
 export default Item;

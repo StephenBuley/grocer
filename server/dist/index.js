@@ -13,7 +13,18 @@ mongoose.set('strictQuery', false);
 main().catch((err) => console.error(err));
 // top level async await functionality
 async function main() {
-    await mongoose.connect(uri); // asynchronously connects to database
+    try {
+        await mongoose.connect(uri); // asynchronously connects to database
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            console.error(e.message);
+            console.log("Your ip address probably isn't configured in MongoDB correctly");
+        }
+        else {
+            console.error(e);
+        }
+    }
     // const testUser = new User({          //this is an example of creating and saving
     //                                           // a new user
     //     username: "Test Number " + Date.now(),

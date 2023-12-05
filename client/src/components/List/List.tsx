@@ -39,19 +39,22 @@ export async function checkAction({
   params: Params<string>
 }) {
   const formData = await request.formData()
-  const newChecked = formData.get(params.itemId!) === 'true'
-  return fetch(
-    `http://localhost:5002/lists/${params.listId}/${params.itemId}`,
-    {
-      method: 'put',
-      headers: {
-        'Content-Type': 'application/json',
+  for (const [itemId, checked] of formData.entries()) {
+    const newChecked = checked === 'true' ? true : false
+    const response = await fetch(
+      `http://localhost:5002/lists/${params.listId}/${itemId}`,
+      {
+        method: 'put',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          checked: !newChecked, // make it the opposite of what it is now
+        }),
       },
-      body: JSON.stringify({
-        checked: !newChecked, // true when button is unchecked
-      }),
-    },
-  )
+    )
+    return await response.json()
+  }
 }
 
 export default function List() {
@@ -66,18 +69,15 @@ export default function List() {
       {items && items.length ? (
         items.map((item) => {
           let checked = item.checked
+          console.log(checked)
           if (fetcher.formData) {
-            checked = fetcher.formData.get(item._id.toString()) === 'false'
+            checked = fetcher.formData.get(item._id.toString()) === 'true'
           }
-
           return (
-            <fetcher.Form
-              method="put"
-              action={`/lists/${fetchedList._id}/${item._id}`}
-              key={item._id.toString()}
-            >
+            <fetcher.Form method="put" key={item._id.toString()}>
               <label htmlFor={item.name}>
                 <button
+                  id={item.name}
                   className={`checkmark ${checked ? 'checked' : ''}`}
                   name={item._id.toString()}
                   value={String(checked)}

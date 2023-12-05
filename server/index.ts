@@ -89,11 +89,14 @@ async function main(): Promise<void> {
   })
 
   app.put('/lists/:id/:itemId', async (req, res) => {
-    const item = await Item.findById(req.params.itemId)
-    item!.checked = req.body.checked
-
-    await item!.save()
-
+    const item = await Item.findByIdAndUpdate(
+      req.params.itemId,
+      {
+        checked: req.body.checked,
+      },
+      { returnDocument: 'after' },
+    )
+    console.log(item)
     const list = await List.findById(req.params.id)
     list!.items = list!.items!.map((listItem) => {
       if (listItem._id.equals(item!._id)) {
@@ -104,7 +107,7 @@ async function main(): Promise<void> {
     })
     await list!.save()
 
-    res.sendStatus(200)
+    res.send(list)
   })
 
   app.listen(PORT, () => {

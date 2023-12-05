@@ -25,6 +25,7 @@ const router = createBrowserRouter([
         path: '/lists/:listId',
         element: <List />,
         loader: listLoader,
+        action: checkAction,
       },
       {
         path: '/lists/createList',
@@ -35,11 +36,10 @@ const router = createBrowserRouter([
   },
   { path: '/destroy', action: destroyAction },
   { path: '/lists/:listId/createItem', action: listAction },
-  { path: '/lists/:listId/:itemId', action: checkAction },
 ])
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <RouterProvider router={router} />,
   </React.StrictMode>,
 )

@@ -15,6 +15,7 @@ main().catch((err) => console.error(err));
 async function main() {
     try {
         await mongoose.connect(uri); // asynchronously connects to database
+        console.log('successfully connected to database!');
     }
     catch (e) {
         if (e instanceof Error) {

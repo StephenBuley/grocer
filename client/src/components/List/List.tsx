@@ -63,27 +63,25 @@ export default function List() {
   const fetchedList = useLoaderData() as IList
   const { items } = fetchedList
 
-  // formData only has on it the one that is changing
-  // for instance, when I click a button for the first time, the id shows up and checked comes back as the previous value
-  // the others don't exist yet!!!
-  // This means they all flash to false, unless you are clicking a true value
-
   return (
     <div className="grocery-list">
       <h2 className="list-title">{fetchedList.name}</h2>
 
       {items && items.length ? (
-        <fetcher.Form method="put">
+        <fetcher.Form method="put" className="fetcher-form">
           {items.map((item) => {
             let checked = item.checked
-            if (fetcher.formData) {
-              checked = fetcher.formData.get(item._id.toString()) === 'true'
+            if (fetcher.formData?.get(item._id.toString())) {
+              checked = fetcher.formData.get(item._id.toString()) === 'false'
             }
             return (
-              <div key={item._id.toString()}>
-                <label htmlFor={item.name}>
+              <div className="btn-container" key={item._id.toString()}>
+                <label
+                  className="checkmark-label"
+                  htmlFor={item._id.toString()}
+                >
                   <button
-                    id={item.name}
+                    id={item._id.toString()}
                     className={`checkmark ${checked ? 'checked' : ''} btn`}
                     name={item._id.toString()}
                     value={String(checked)}

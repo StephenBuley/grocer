@@ -46,9 +46,10 @@ h1 {
 }
 
 a:hover,
-button:hover {
+.btn:hover {
   border-color: #646cff;
 }
+
 a:focus,
 button:focus,
 a:focus-visible,

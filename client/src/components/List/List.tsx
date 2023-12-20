@@ -40,6 +40,7 @@ export async function checkAction({
 }) {
   const formData = await request.formData()
   for (const [itemId, checked] of formData.entries()) {
+    console.log(itemId, checked)
     const newChecked = checked === 'true' ? true : false
     const response = await fetch(
       `http://localhost:5002/lists/${params.listId}/${itemId}`,
@@ -62,31 +63,37 @@ export default function List() {
   const fetchedList = useLoaderData() as IList
   const { items } = fetchedList
 
+  // formData only has on it the one that is changing
+  // for instance, when I click a button for the first time, the id shows up and checked comes back as the previous value
+  // the others don't exist yet!!!
+  // This means they all flash to false, unless you are clicking a true value
+
   return (
     <div className="grocery-list">
       <h2 className="list-title">{fetchedList.name}</h2>
 
       {items && items.length ? (
-        items.map((item) => {
-          let checked = item.checked
-          console.log(checked)
-          if (fetcher.formData) {
-            checked = fetcher.formData.get(item._id.toString()) === 'true'
-          }
-          return (
-            <fetcher.Form method="put" key={item._id.toString()}>
-              <label htmlFor={item.name}>
-                <button
-                  id={item.name}
-                  className={`checkmark ${checked ? 'checked' : ''}`}
-                  name={item._id.toString()}
-                  value={String(checked)}
-                />
-                {item.name}
-              </label>
-            </fetcher.Form>
-          )
-        })
+        <fetcher.Form method="put">
+          {items.map((item) => {
+            let checked = item.checked
+            if (fetcher.formData) {
+              checked = fetcher.formData.get(item._id.toString()) === 'true'
+            }
+            return (
+              <div key={item._id.toString()}>
+                <label htmlFor={item.name}>
+                  <button
+                    id={item.name}
+                    className={`checkmark ${checked ? 'checked' : ''} btn`}
+                    name={item._id.toString()}
+                    value={String(checked)}
+                  />
+                  {item.name}
+                </label>
+              </div>
+            )
+          })}
+        </fetcher.Form>
       ) : (
         <div>No Items Found</div>
       )}

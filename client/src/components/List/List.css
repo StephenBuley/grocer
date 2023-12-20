@@ -16,10 +16,13 @@
 }
 
 .checkmark-label {
-  display: inline-block;
+  display: flex;
+  gap: 1em;
+  align-items: center;
 }
 
 .fetcher-form {
   display: flex;
   flex-direction: column;
+  gap: 1em;
 }
